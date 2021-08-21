@@ -25,11 +25,10 @@ public class EnemyBasicMove : MonoBehaviour
         {
             case -1:
                 // Moving Left
-                Debug.Log(transform.position.x);
                 if (transform.position.x > minDist)
                 {
                     GetComponent<Rigidbody2D>().velocity = new Vector2(-movingSpeed, GetComponent<Rigidbody2D>().velocity.y);
-                    Debug.Log(movingSpeed + " " + GetComponent<Rigidbody2D>().velocity);
+                    //Debug.Log(movingSpeed + " " + GetComponent<Rigidbody2D>().velocity);
                 }
                 else
                 {

@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
     bool wallSliding;
     int wallDirX;
 
+    bool haveKey = false;
+
     Controller2D controller;
     private void Start()
     {
@@ -141,5 +143,15 @@ public class Player : MonoBehaviour
         float targetVelocityX = directionalInput.x * moveSpeed;
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirbone);
         velocity.y += gravity * Time.deltaTime;
+    }
+
+    public void PossessKey()
+    {
+        haveKey = true;
+    }
+
+    public bool KeyStatus()
+    {
+        return haveKey;
     }
 }

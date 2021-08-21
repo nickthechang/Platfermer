@@ -5,6 +5,9 @@ using UnityEngine;
 public class RaycastController : MonoBehaviour
 {
     public LayerMask collisionMask;
+    public LayerMask collectibleMask;
+    public LayerMask endMask;
+    public LayerMask die;
 
     public const float skinWidth = .015f;
     const float dstBetweenRays = .25f;

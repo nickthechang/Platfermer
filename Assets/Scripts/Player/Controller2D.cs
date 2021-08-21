@@ -8,6 +8,8 @@ public class Controller2D : RaycastController
     float maxClimbAngle = 80;
     float maxDescendAngle = 75;
 
+    bool haveKey = false;
+
     public CollisionInfo collisions;
     [HideInInspector]
     public Vector2 playerInput;
@@ -80,7 +82,23 @@ public class Controller2D : RaycastController
             Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight;
             rayOrigin += Vector2.up * (horizontalRaySpacing * i);
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
-
+            RaycastHit2D collectible = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collectibleMask);
+            RaycastHit2D End = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, endMask);
+            
+            if(collectible)
+            {
+                collectible.collider.gameObject.GetComponent<Collectible>().EatMyAss();
+                PossessKey();
+                Debug.Log(haveKey);
+            }
+            if(End)
+            {
+                Debug.Log("bruh");
+                if(haveKey)
+                {
+                    Application.Quit();
+                }
+            }
             Debug.DrawRay(rayOrigin, Vector2.right * directionX, Color.red);
 
             if (hit)
@@ -135,6 +153,13 @@ public class Controller2D : RaycastController
             Vector2 rayOrigin = (directionY == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
             rayOrigin += Vector2.right * (verticalRaySpacing * i + deltaMove.x);
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
+            RaycastHit2D Die = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, die);
+
+            if(Die)
+            {
+                Debug.Log("Die");
+                Application.Quit();
+            }
 
             Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.red);
 
@@ -260,5 +285,15 @@ public class Controller2D : RaycastController
             slopeAngleOld = slopeAngle;
             slopeAngle = 0;
         }
+    }
+
+    public void PossessKey()
+    {
+        haveKey = true;
+    }
+
+    public bool KeyStatus()
+    {
+        return haveKey;
     }
 }
